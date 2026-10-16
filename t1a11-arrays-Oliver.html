@@ -1,29 +1,185 @@
-<h2 align=center>t1a11-arrays-Oliver.html</h2>
 
-<a href="">Good reference to Javascript Arrays</a><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t1a11-arrays-Oliver</title>
 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #222;
+            margin: 0;
+            padding: 30px 15px;
+        }
 
-<h4> Example working Array code</h4>
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-Max Array Entry: <input type=number
- id="myText01" value="3"><br>
+        h2 {
+            text-align: center;
+            color: #2457a7;
+        }
 
- <input type=button value="Example onClick" onClick="{
-    let myTemp = document.getElementById('mytext01').value
-    let mySum = ''
-    documet.getElementById('myDiv01').innerHTML = ' '
+        h4 {
+            margin-top: 25px;
+            color: #333;
+        }
 
-    myArray = new Array()
-    myArray[0] = 'Oliver'
-    myArray[1] = 'tyson'
-    myArray[2] = 'Jordan'
+        a {
+            color: #2457a7;
+        }
 
-    for (let myLoop=0;  myLoop < myTemp; myLoop++){
-      mySum += 'Loop#: ' + myLoop + ' array entry:' + myArray[myLoop] +'<br>'
-    } 
-    document.getElementById('myDiv01').innerHTML = mySum
-   }">
-   <div id="myDiv01">...</div>
+        input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
 
+        button {
+            background-color: #2457a7;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 10px;
+        }
 
-   <br>
+        button:hover {
+            background-color: #173d79;
+        }
+
+        #myDiv01 {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eef4ff;
+            border-radius: 8px;
+            min-height: 25px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .entry {
+            padding: 5px 8px;
+            margin: 5px 0;
+            background-color: white;
+            border-left: 4px solid #2457a7;
+            border-radius: 3px;
+        }
+
+        .note {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>t1a11-arrays-Oliver.html</h2>
+
+    <p>
+        Learn how JavaScript arrays store multiple values
+        in a single variable.
+    </p>
+
+    <a href="https://www.w3schools.com/js/js_arrays.asp"
+       target="_blank" rel="noopener noreferrer">
+        Good reference to JavaScript Arrays
+    </a>
+
+    <h4>Example: Working Array Code</h4>
+
+    <label for="myText01">Number of array entries to display (1–3):</label>
+    <br>
+
+    <input type="number"
+           id="myText01"
+           value="3"
+           min="1"
+           max="3"
+           step="1">
+
+    <br>
+
+    <button type="button" onclick="showArray()">
+        Show Array Entries
+    </button>
+
+    <button type="button" onclick="showAll()">
+        Show All
+    </button>
+
+    <div id="myDiv01" aria-live="polite">
+        Your array results will appear here.
+    </div>
+
+    <p class="note">
+        Remember: array indexes start at 0!
+    </p>
+
+</div>
+
+<script>
+    // Create an array containing three names.
+    const myArray = ["Oliver", "Tyson", "Jordan"];
+
+    // Display the selected number of array entries.
+    function showArray() {
+        const myTemp = Number(
+            document.getElementById("myText01").value
+        );
+
+        const myDiv = document.getElementById("myDiv01");
+
+        // Check that the input is valid.
+        if (
+            !Number.isInteger(myTemp) ||
+            myTemp < 1 ||
+            myTemp > myArray.length
+        ) {
+            myDiv.textContent =
+                "Please enter a whole number between 1 and " +
+                myArray.length + ".";
+            return;
+        }
+
+        let mySum = "";
+
+        // Loop through the selected array entries.
+        for (let myLoop = 0; myLoop < myTemp; myLoop++) {
+            mySum +=
+                '<div class="entry">' +
+                "Loop #: " + myLoop +
+                " | Array entry: " + myArray[myLoop] +
+                "</div>";
+        }
+
+        myDiv.innerHTML = mySum;
+    }
+
+    // Set the input to the full array length and display all names.
+    function showAll() {
+        document.getElementById("myText01").value =
+            myArray.length;
+
+        showArray();
+    }
+</script>
+
+</body>
+</html>
+
