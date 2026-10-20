@@ -1,25 +1,151 @@
-<h2 align=center>t1a05-input-output-Oliver.html</h2>
 
-<a href="https://www/w3schools.com/jsref/prop_html_innerhtml.asp">Good reference to input output
-Javascript innerHTML value by oliver</a>
+<h2 align="center">t1a05-input-output-Oliver.html</h2>
 
-<h4> Example input output code</h4>
+<a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp">
+  Good reference to input/output JavaScript innerHTML
+</a>
+
+<h4>Example input/output code</h4>
+
 <pre>
-
-    myIn = document.getElementById('myNum01').value
-    document.getElementById('myDiv01').innerHTML = 'hi'
-  
+myIn = document.getElementById('myNum01').value
+document.getElementById('myDiv01').innerHTML = 'hi'
 </pre>
-<h4> Example working code</h4>
 
-<input id="myNum01" type=number value="4" ><br>
+<hr>
 
-<input type=button value="myEvent squares" onClick="{
-    let myIn01 = parseFloat(document.getElementById('myNum01').value)
-    let myAnswer = myIn01 * myIn01
-    document.getElementById('myDiv01').innerHTML = myIn + ' squared = ' + myAnswer
-  }"><br>
+<h4>Example 1: Square a Number</h4>
 
+<input id="myNum01" type="number" value="4">
 
+<button onclick="{
+  let myIn01 = parseFloat(document.getElementById('myNum01').value);
+  let myAnswer = myIn01 * myIn01;
+  document.getElementById('myDiv01').innerHTML =
+    myIn01 + ' squared = ' + myAnswer;
+}">
+  Square
+</button>
 
-  <div id="myDiv01">...</div>
+<div id="myDiv01">Answer appears here</div>
+
+<hr>
+
+<h4>Example 2: Cube a Number</h4>
+
+<input id="myNum02" type="number" value="3">
+
+<button onclick="{
+  let myIn02 = parseFloat(document.getElementById('myNum02').value);
+  let myAnswer02 = myIn02 * myIn02 * myIn02;
+  document.getElementById('myDiv02').innerHTML =
+    myIn02 + ' cubed = ' + myAnswer02;
+}">
+  Cube
+</button>
+
+<div id="myDiv02">Answer appears here</div>
+
+<hr>
+
+<h4>Example 3: Double a Number</h4>
+
+<input id="myNum03" type="number" value="5">
+
+<button onclick="{
+  let myIn03 = parseFloat(document.getElementById('myNum03').value);
+  let myAnswer03 = myIn03 * 2;
+  document.getElementById('myDiv03').innerHTML =
+    myIn03 + ' doubled = ' + myAnswer03;
+}">
+  Double
+</button>
+
+<div id="myDiv03">Answer appears here</div>
+
+<hr>
+
+<h4>Example 4: Add Two Numbers</h4>
+
+<input id="myNum04" type="number" value="10">
++
+<input id="myNum05" type="number" value="5">
+
+<button onclick="{
+  let num1 = parseFloat(document.getElementById('myNum04').value);
+  let num2 = parseFloat(document.getElementById('myNum05').value);
+  let answer = num1 + num2;
+  document.getElementById('myDiv04').innerHTML =
+    num1 + ' + ' + num2 + ' = ' + answer;
+}">
+  Add
+</button>
+
+<div id="myDiv04">Answer appears here</div>
+
+<hr>
+
+<h4>Example 5: Multiply Two Numbers</h4>
+
+<input id="myNum06" type="number" value="6">
+×
+<input id="myNum07" type="number" value="7">
+
+<button onclick="{
+  let num1 = parseFloat(document.getElementById('myNum06').value);
+  let num2 = parseFloat(document.getElementById('myNum07').value);
+  let answer = num1 * num2;
+  document.getElementById('myDiv05').innerHTML =
+    num1 + ' × ' + num2 + ' = ' + answer;
+}">
+  Multiply
+</button>
+
+<div id="myDiv05">Answer appears here</div>
+
+<hr>
+
+<h4>Example 6: Personalized Greeting</h4>
+
+<input id="myName01" type="text" value="Oliver"
+       placeholder="Enter your name">
+
+<button onclick="{
+  let myName = document.getElementById('myName01').value;
+  document.getElementById('myDiv06').innerHTML =
+    'Hello ' + myName + '! Welcome to my website!';
+}">
+  Greet Me
+</button>
+
+<div id="myDiv06">Your greeting appears here</div>
+
+<hr>
+
+<h4>Example 7: Change Text with innerHTML</h4>
+
+<button onclick="{
+  document.getElementById('myDiv07').innerHTML =
+    'Hello! JavaScript changed this text.';
+}">
+  Change Text
+</button>
+
+<div id="myDiv07">This is the original text.</div>
+
+<hr>
+
+<h4>Example 8: Calculate Half a Number</h4>
+
+<input id="myNum08" type="number" value="20">
+
+<button onclick="{
+  let myIn08 = parseFloat(document.getElementById('myNum08').value);
+  let answer08 = myIn08 / 2;
+  document.getElementById('myDiv08').innerHTML =
+    'Half of ' + myIn08 + ' = ' + answer08;
+}">
+  Find Half
+</button>
+
+<div id="myDiv08">Answer appears here</div>
