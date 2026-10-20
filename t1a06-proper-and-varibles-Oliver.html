@@ -1,26 +1,159 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <meta charset="UTF-8">
-    <title>t1a06-proper-and-varibles-Oliver.html</title>
+    <title>t1a06-proper-and-variables-Oliver.html</title>
+
     <style>
-        b { color: blue; }
+        b {
+            color: blue;
+        }
+
+        body {
+            background-color: lightyellow;
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        button {
+            padding: 8px;
+            margin: 5px;
+        }
+
+        #myDiv01 {
+            color: darkgreen;
+            font-size: 18px;
+            margin-top: 15px;
+        }
     </style>
+
     <script>
         function sayHello() {
-            myNum = 3;
-            mystring = ' Hello ';
-            myFloat = 17.5;
-            myBool = true;
-            myOut = document.getElementById('myDiv01');
-            myOut.innerHTML = myNum + myString + myFloat = ', ' + myBool;
-            if (myBool) {myOut.innerHTML += ', WOW';}
+            let myNum = 3;
+            let myString = ' Hello ';
+            let myFloat = 17.5;
+            let myBool = true;
+
+            let myOut = document.getElementById('myDiv01');
+
+            myOut.innerHTML =
+                myNum + myString + myFloat + ', ' + myBool;
+
+            if (myBool) {
+                myOut.innerHTML += ', WOW!';
+            }
         }
-   </script>
+
+        function showMoreVariables() {
+            let myAge = 16;
+            let myName = 'Oliver';
+            let myHeight = 1.75;
+            let myStudent = true;
+
+            document.getElementById('myDiv01').innerHTML =
+                'Name: ' + myName +
+                '<br>Age: ' + myAge +
+                '<br>Height: ' + myHeight + ' metres' +
+                '<br>Student: ' + myStudent;
+        }
+
+        function doMath() {
+            let num1 = 10;
+            let num2 = 5;
+
+            document.getElementById('myDiv01').innerHTML =
+                'Number 1 = ' + num1 +
+                '<br>Number 2 = ' + num2 +
+                '<br>Addition: ' + (num1 + num2) +
+                '<br>Subtraction: ' + (num1 - num2) +
+                '<br>Multiplication: ' + (num1 * num2) +
+                '<br>Division: ' + (num1 / num2);
+        }
+
+        function checkNumber() {
+            let myNum = parseFloat(
+                document.getElementById('myInput01').value
+            );
+
+            let myOut = document.getElementById('myDiv01');
+
+            if (isNaN(myNum)) {
+                myOut.innerHTML = 'Please enter a valid number.';
+            } else if (myNum > 0) {
+                myOut.innerHTML = myNum + ' is positive!';
+            } else if (myNum < 0) {
+                myOut.innerHTML = myNum + ' is negative!';
+            } else {
+                myOut.innerHTML = 'Your number is zero!';
+            }
+        }
+
+        function checkEvenOdd() {
+            let myNum = Number(
+                document.getElementById('myInput01').value
+            );
+
+            let myOut = document.getElementById('myDiv01');
+
+            if (!Number.isInteger(myNum)) {
+                myOut.innerHTML = 'Please enter a whole number.';
+            } else if (myNum % 2 == 0) {
+                myOut.innerHTML = myNum + ' is an even number.';
+            } else {
+                myOut.innerHTML = myNum + ' is an odd number.';
+            }
+        }
+
+        function changeColor() {
+            let myOut = document.getElementById('myDiv01');
+
+            myOut.style.color = 'red';
+            myOut.style.fontSize = '24px';
+            myOut.innerHTML = 'The color and size changed!';
+        }
+
+        function resetPage() {
+            let myOut = document.getElementById('myDiv01');
+
+            myOut.innerHTML = '...';
+            myOut.style.color = 'darkgreen';
+            myOut.style.fontSize = '18px';
+        }
+    </script>
 </head>
+
 <body>
-    <p>This is <b>bold</b> txt.</p>
-    <button onClick="sayHello90">Click Me</button>
+    <h2>Proper HTML and Variables - Oliver</h2>
+
+    <p>This is <b>bold</b> text.</p>
+    <p>Click the buttons to test variables, math, and decisions.</p>
+
+    <button onclick="sayHello()">Click Me - Hello</button>
+
+    <button onclick="showMoreVariables()">More Variables</button>
+
+    <button onclick="doMath()">Math Calculations</button>
+
+    <br><br>
+
+    <label for="myInput01">Enter a number:</label>
+    <input id="myInput01" type="number" value="7">
+
+    <br>
+
+    <button onclick="checkNumber()">Positive or Negative</button>
+
+    <button onclick="checkEvenOdd()">Even or Odd</button>
+
+    <br><br>
+
+    <button onclick="changeColor()">Change Style</button>
+
+    <button onclick="resetPage()">Reset Output</button>
+
+    <hr>
+
     <div id="myDiv01">...</div>
 </body>
 </html>
