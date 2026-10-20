@@ -1,25 +1,126 @@
-  <h2 align=center>t1a07-decision-Oliver.html</h2>
 
+<h2 align="center">t1a07-decision-Oliver.html</h2>
 
-  <h4> Example working code</h4>
+<h4>Example Working Code - More Decisions</h4>
 
-  <input id="myNum01" type=number value="4" ><br>
+<p>Enter a number:</p>
+<input id="myNum01" type="number" value="4"><br><br>
 
-  <input type button value="Simple if Statement for Decision Making" onClick="{
-     let myIn01 = parseFloat(document.getElementById('myNum01').value)
-     if (myIn01 >= 3)}
-         document.getElementById('myDiv01').innerHTML = myIn01 + ' is greater than 3'
-     } else {
-         document.getElementById('myDiv01').innerHTML = myIn01 + ' is less than 3'
-    }">
+<input type="button" value="Simple If: Greater Than 3" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value);
 
-    <input tpye=button value="Complex if" onClick="{
-        let myIn01 = parseFloat(document.getElementById('myNum01').value)
-        if ((myIn01 != 3 || myIn01 > -3)  && myIn01 <=100 ){
-            document.getElementById('myDiv01').innerHTML = myIn01 + ' is complex'
-        } else {
-             document.getElementById('myDiv01').innerHTML = myIn01 + ' is not complex'
-      }">
+    if (myIn01 >= 3) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is greater than or equal to 3';
+    } else {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is less than 3';
+    }
+}">
 
+<br><br>
 
-      <div id="myDiv01">...</div>
+<input type="button" value="Complex If" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value);
+
+    if ((myIn01 != 3 || myIn01 > -3) && myIn01 <= 100) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' passes the complex decision';
+    } else {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' does not pass the complex decision';
+    }
+}">
+
+<br><br>
+
+<input type="button" value="Positive, Negative, or Zero" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value);
+
+    if (myIn01 > 0) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is positive';
+    } else if (myIn01 < 0) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is negative';
+    } else {
+        document.getElementById('myDiv01').innerHTML =
+            'The number is zero';
+    }
+}">
+
+<br><br>
+
+<input type="button" value="Even or Odd" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value);
+
+    if (Number.isInteger(myIn01) && myIn01 % 2 == 0) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is even';
+    } else if (Number.isInteger(myIn01)) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is odd';
+    } else {
+        document.getElementById('myDiv01').innerHTML =
+            'Please enter a whole number';
+    }
+}">
+
+<br><br>
+
+<input type="button" value="Number Range Decision" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value);
+
+    if (myIn01 >= 1 && myIn01 <= 10) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is between 1 and 10';
+    } else if (myIn01 > 10 && myIn01 <= 100) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is between 11 and 100';
+    } else if (myIn01 > 100) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is greater than 100';
+    } else {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is less than 1';
+    }
+}">
+
+<br><br>
+
+<input type="button" value="Divisible by 3 and 5" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value);
+
+    if (Number.isInteger(myIn01) && myIn01 % 3 == 0 && myIn01 % 5 == 0) {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is divisible by both 3 and 5';
+    } else {
+        document.getElementById('myDiv01').innerHTML =
+            myIn01 + ' is not divisible by both 3 and 5';
+    }
+}">
+
+<br><br>
+
+<input type="button" value="Grade Decision" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value);
+
+    if (myIn01 >= 90 && myIn01 <= 100) {
+        document.getElementById('myDiv01').innerHTML = 'Grade: A';
+    } else if (myIn01 >= 80 && myIn01 < 90) {
+        document.getElementById('myDiv01').innerHTML = 'Grade: B';
+    } else if (myIn01 >= 70 && myIn01 < 80) {
+        document.getElementById('myDiv01').innerHTML = 'Grade: C';
+    } else if (myIn01 >= 50 && myIn01 < 70) {
+        document.getElementById('myDiv01').innerHTML = 'Grade: D';
+    } else if (myIn01 >= 0 && myIn01 < 50) {
+        document.getElementById('myDiv01').innerHTML = 'Grade: F';
+    } else {
+        document.getElementById('myDiv01').innerHTML =
+            'Enter a grade between 0 and 100';
+    }
+}">
+
+<br><br>
+
+<div id="myDiv01">Results will appear here...</div>
