@@ -4,83 +4,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>t1a11-arrays-Oliver</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
-            color: #222;
+            background: linear-gradient(135deg, #dbeafe, #e9d5ff);
+            color: #1e293b;
             margin: 0;
             padding: 30px 15px;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 650px;
+            max-width: 700px;
             margin: auto;
-            background-color: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(30, 41, 59, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2457a7;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
         }
 
         h2 {
+            color: #334155;
+            font-size: 20px;
+            margin-top: 25px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .stat-card {
+            flex: 1;
+            padding: 18px 10px;
             text-align: center;
+            background: #eff6ff;
+            border-radius: 12px;
+            border: 1px solid #dbeafe;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 28px;
+            font-weight: bold;
             color: #2457a7;
         }
 
-        h4 {
+        .stat-label {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 15px 0 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2457a7;
+            box-shadow: 0 0 0 3px #dbeafe;
+        }
+
+        .number-input {
+            max-width: 150px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 15px;
+            background: #2457a7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #173d79;
+            transform: translateY(-1px);
+        }
+
+        .purple-button {
+            background: #7c3aed;
+        }
+
+        .purple-button:hover {
+            background: #5b21b6;
+        }
+
+        .green-button {
+            background: #059669;
+        }
+
+        .green-button:hover {
+            background: #047857;
+        }
+
+        .red-button {
+            background: #dc2626;
+        }
+
+        .red-button:hover {
+            background: #b91c1c;
+        }
+
+        #myDiv01 {
+            margin-top: 18px;
+            padding: 15px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            min-height: 60px;
+        }
+
+        .entry {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 14px;
+            margin: 9px 0;
+            background: white;
+            border: 1px solid #dbeafe;
+            border-left: 5px solid #2457a7;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .entry-name {
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .entry-index {
+            font-size: 12px;
+            color: #64748b;
+            background: #eff6ff;
+            padding: 6px 9px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .note {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .message {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .footer {
             margin-top: 25px;
-            color: #333;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
         }
 
         a {
             color: #2457a7;
         }
 
-        input[type="number"] {
-            width: 80px;
-            padding: 8px;
-            margin: 10px 0;
-            font-size: 16px;
-        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
 
-        button {
-            background-color: #2457a7;
-            color: white;
-            border: none;
-            padding: 11px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            margin-top: 10px;
-        }
+            h1 {
+                font-size: 22px;
+            }
 
-        button:hover {
-            background-color: #173d79;
-        }
+            .stats {
+                gap: 7px;
+            }
 
-        #myDiv01 {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #eef4ff;
-            border-radius: 8px;
-            min-height: 25px;
-            line-height: 1.8;
-            overflow-wrap: anywhere;
-        }
+            .stat-card {
+                padding: 13px 5px;
+            }
 
-        .entry {
-            padding: 5px 8px;
-            margin: 5px 0;
-            background-color: white;
-            border-left: 4px solid #2457a7;
-            border-radius: 3px;
-        }
+            .stat-number {
+                font-size: 23px;
+            }
 
-        .note {
-            color: #666;
-            font-size: 14px;
+            button {
+                min-width: 100%;
+            }
         }
     </style>
 </head>
@@ -89,49 +247,127 @@
 
 <div class="container">
 
-    <h2>t1a11-arrays-Oliver.html</h2>
+    <h1>JavaScript Arrays</h1>
+    <p class="subtitle">
+        t1a11-arrays-Oliver.html | Interactive Array Demo
+    </p>
 
-    <a href="https://www.w3schools.com/js/js_arrays.asp"
-       target="_blank" rel="noopener noreferrer">
-       
-    </a>
+    <p>
+        An array stores multiple values in one variable.
+        Use the controls below to explore how arrays work.
+    </p>
 
-    <h4>Example: Working Array Code</h4>
+    <p>
+        Learn more:
+        <a href="https://www.w3schools.com/js/js_arrays.asp"
+           target="_blank"
+           rel="noopener noreferrer">
+            W3Schools JavaScript Arrays
+        </a>
+    </p>
 
-    <label for="myText01">Number of array entries to display (1–3):</label>
-    <br>
+    <div class="stats">
+        <div class="stat-card">
+            <span class="stat-number" id="arrayCount">3</span>
+            <div class="stat-label">Array Entries</div>
+        </div>
 
-    <input type="number"
-           id="myText01"
-           value="3"
-           min="1"
-           max="3"
-           step="1">
+        <div class="stat-card">
+            <span class="stat-number" id="shownCount">3</span>
+            <div class="stat-label">Entries Displayed</div>
+        </div>
+    </div>
 
-    <br>
+    <h2>1. Display Array Entries</h2>
 
-    <button type="button" onclick="showArray()">
-        Show Array Entries
-    </button>
+    <label for="myText01">
+        Number of entries to display:
+    </label>
 
-    <button type="button" onclick="showAll()">
-        Show All
-    </button>
+    <input
+        class="number-input"
+        type="number"
+        id="myText01"
+        value="3"
+        min="1"
+        step="1"
+    >
+
+    <div class="button-group">
+        <button type="button" onclick="showArray()">
+            Show Entries
+        </button>
+
+        <button
+            type="button"
+            class="purple-button"
+            onclick="showAll()"
+        >
+            Show All
+        </button>
+    </div>
+
+    <div id="myDiv01" aria-live="polite"></div>
+
+    <h2>2. Add a Name</h2>
+
+    <label for="newName">Enter a new name:</label>
+
+    <input
+        type="text"
+        id="newName"
+        placeholder="Type a name here..."
+        maxlength="50"
+    >
+
+    <div class="button-group">
+        <button
+            type="button"
+            class="green-button"
+            onclick="addName()"
+        >
+            + Add Name
+        </button>
+
+        <button
+            type="button"
+            class="red-button"
+            onclick="removeLast()"
+        >
+            Remove Last
+        </button>
+    </div>
+
+    <div id="message" class="message" aria-live="polite">
+        Ready to explore arrays!
+    </div>
+
+    <h2>3. How Array Indexes Work</h2>
+
+    <p class="note">
+        JavaScript arrays start counting at index 0.
+        The first name is at index 0, the second at index 1,
+        and the third at index 2.
+    </p>
+
+    <div class="footer">
+        Created by Oliver | JavaScript Arrays Project
+    </div>
+
+</div>
 
 <script>
     // Create an array containing three names.
     const myArray = ["Oliver", "Tyson", "Jordan"];
 
-    // Display the selected number of array entries.
+    // Display the selected number of entries.
     function showArray() {
-        const myTemp = Number(
-            document.getElementById("myText01").value
-        );
-
+        const input = document.getElementById("myText01");
+        const myTemp = Number(input.value);
         const myDiv = document.getElementById("myDiv01");
 
-        // Check that the input is valid.
         if (
+            input.value.trim() === "" ||
             !Number.isInteger(myTemp) ||
             myTemp < 1 ||
             myTemp > myArray.length
@@ -139,32 +375,118 @@
             myDiv.textContent =
                 "Please enter a whole number between 1 and " +
                 myArray.length + ".";
+
+            document.getElementById("shownCount").textContent = "0";
             return;
         }
 
-        let mySum = "";
+        // Build the displayed entries safely.
+        myDiv.replaceChildren();
 
-        // Loop through the selected array entries.
         for (let myLoop = 0; myLoop < myTemp; myLoop++) {
-            mySum +=
-                '<div class="entry">' +
-                "Loop #: " + myLoop +
-                " | Array entry: " + myArray[myLoop] +
-                "</div>";
+            const entry = document.createElement("div");
+            entry.className = "entry";
+
+            const name = document.createElement("span");
+            name.className = "entry-name";
+            name.textContent = myArray[myLoop];
+
+            const index = document.createElement("span");
+            index.className = "entry-index";
+            index.textContent = "Index: " + myLoop;
+
+            entry.append(name, index);
+            myDiv.appendChild(entry);
         }
 
-        myDiv.innerHTML = mySum;
+        document.getElementById("shownCount").textContent = myTemp;
     }
 
-    // Set the input to the full array length and display all names.
+    // Display every array entry.
     function showAll() {
-        document.getElementById("myText01").value =
-            myArray.length;
-
+        document.getElementById("myText01").value = myArray.length;
         showArray();
     }
+
+    // Add a new name to the array.
+    function addName() {
+        const input = document.getElementById("newName");
+        const name = input.value.trim();
+        const message = document.getElementById("message");
+
+        if (name === "") {
+            message.textContent = "Please enter a name first.";
+            message.style.background = "#fee2e2";
+            message.style.color = "#991b1b";
+            input.focus();
+            return;
+        }
+
+        myArray.push(name);
+
+        message.textContent =
+            '"' + name + '" was added to the array!';
+        message.style.background = "#dcfce7";
+        message.style.color = "#166534";
+
+        input.value = "";
+
+        // Update the display and show the whole array.
+        showAll();
+        updateCount();
+        input.focus();
+    }
+
+    // Remove the last name from the array.
+    function removeLast() {
+        const message = document.getElementById("message");
+
+        if (myArray.length === 0) {
+            message.textContent = "The array is already empty.";
+            message.style.background = "#fee2e2";
+            message.style.color = "#991b1b";
+            return;
+        }
+
+        const removedName = myArray.pop();
+
+        message.textContent =
+            '"' + removedName + '" was removed from the array!';
+        message.style.background = "#fef3c7";
+        message.style.color = "#92400e";
+
+        updateCount();
+
+        if (myArray.length === 0) {
+            document.getElementById("myDiv01").textContent =
+                "Your array is empty. Add a name to get started.";
+
+            document.getElementById("shownCount").textContent = "0";
+            document.getElementById("myText01").value = "";
+        } else {
+            showAll();
+        }
+    }
+
+    // Update the array entry counter.
+    function updateCount() {
+        document.getElementById("arrayCount").textContent =
+            myArray.length;
+    }
+
+    // Press Enter to add a name.
+    document.getElementById("newName").addEventListener(
+        "keydown",
+        function(event) {
+            if (event.key === "Enter") {
+                addName();
+            }
+        }
+    );
+
+    // Display all initial array entries on page load.
+    showAll();
 </script>
 
 </body>
 </html>
-
