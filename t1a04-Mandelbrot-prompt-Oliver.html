@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+
+<a align=center<t1a04-mandelbrot-prompt-Oliver.html</a><br>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mandelbrot Explorer</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: system-ui, sans-serif;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+  }
+  #myHint {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    padding: 10px 14px;
+    color: #fff;
+    background: #101020dd;
+    border: 1px solid #754aff;
+    border-radius: 9px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    z-index: 2;
+  }
+  #myModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #000b;
+  }
+  #myModalContent {
+    position: relative;
+    width: min(480px, 100%);
+    padding: 28px;
+    color: #eee;
+    background: #111122;
+    border: 1px solid #8957ff;
+    border-radius: 16px;
+    line-height: 1.7;
+    box-shadow: 0 0 45px #643cff44;
+  }
+  #myModalContent h2 { color: #bca0ff; margin-top: 0; }
+  #myClose {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    color: white;
+    background: none;
+    border: 0;
+    font-size: 25px;
+    cursor: pointer;
+  }
+  .myFormula {
+    padding: 14px;
+    text-align: center;
+    color: #7ffcff;
+    background: #080814;
+    border-radius: 8px;
+    font-size: 19px;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="myHint" title="Click to learn about the fractal">
+  ✦ MANDELBROT EXPLORER · Click for info
+</div>
+
+<div id="myModal">
+  <div id="myModalContent">
+    <button id="myClose" aria-label="Close">&times;</button>
+    <h2>The Mandelbrot Set</h2>
+    <p>
+      Every pixel represents a complex number <b>C</b>. Starting with
+      <b>Z = 0</b>, the renderer repeatedly applies this equation:
+    </p>
+    <div class="myFormula">Z<sub>n+1</sub> = Z<sub>n</sub><sup>2</sup> + C</div>
+    <p>
+      If the sequence stays bounded, the point belongs to the Mandelbrot
+      set and is colored black. If it escapes, the number of iterations
+      determines its color.
+    </p>
+    <p>
+      <b>Explore:</b> Move the mouse to preview a zoom region. Use the
+      mouse wheel to resize it, then click to zoom. The preview shows
+      exactly which region will fill your screen.
+    </p>
+    <p>Infinite complexity emerges from one simple equation.</p>
+  </div>
+</div>
+
+<script>
+const myCanvas = document.getElementById("myCanvas");
+const myContext = myCanvas.getContext("2d", { alpha: false });
+const myHint = document.getElementById("myHint");
+const myModal = document.getElementById("myModal");
+const myClose = document.getElementById("myClose");
+
+let myWidth = 0;
+let myHeight = 0;
+let myImageData;
+let myCenterReal = -0.5;
+let myCenterImag = 0;
+let myViewHeight = 3;
+let myMouseX = 0;
+let myMouseY = 0;
+let myPreviewScale = 0.5;
+let myRenderId = 0;
+let myIsRendering = false;
+
+function myResizeCanvas() {
+  const myDpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+  myWidth = window.innerWidth;
+  myHeight = window.innerHeight;
+
+  myCanvas.width = Math.round(myWidth * myDpr);
+  myCanvas.height = Math.round(myHeight * myDpr);
+  myCanvas.style.width = myWidth + "px";
+  myCanvas.style.height = myHeight + "px";
+
+  myContext.setTransform(myDpr, 0, 0, myDpr, 0, 0);
+  myImageData = myContext.createImageData(myWidth, myHeight);
+
+  myRenderFractal();
+}
+
+function myGetComplexPoint(myScreenX, myScreenY) {
+  const myAspect = myWidth / myHeight;
+  return {
+    real: myCenterReal +
+      (myScreenX / myWidth - 0.5) * myViewHeight * myAspect,
+    imag: myCenterImag +
+      (myScreenY / myHeight - 0.5) * myViewHeight
+  };
+}
+
+function myGetColor(myIteration, myMaxIterations, myMagnitude) {
+  if (myIteration >= myMaxIterations) {
+    return [0, 0, 0];
+  }
+
+  // Smooth escape-time coloring avoids harsh iteration bands.
+  const mySmoothIteration = myIteration + 1 -
+    Math.log2(Math.max(1e-30, Math.log2(Math.max(myMagnitude, 1.000001))));
+
+  const myColorPosition = Math.max(0, mySmoothIteration) * 0.075;
+  const myRed = 0.5 + 0.5 * Math.cos(myColorPosition * 6.28318);
+  const myGreen = 0.5 + 0.5 * Math.cos(myColorPosition * 6.28318 + 2.1);
+  const myBlue = 0.5 + 0.5 * Math.cos(myColorPosition * 6.28318 + 4.2);
+
+  return [
+    Math.round(255 * Math.pow(myRed, 0.7)),
+    Math.round(255 * Math.pow(myGreen, 0.7)),
+    Math.round(255 * Math.pow(myBlue, 0.7))
+  ];
+}
+
+async function myRenderFractal() {
+  const myThisRender = ++myRenderId;
+  myIsRendering = true;
+
+  const myData = myImageData.data;
+  const myAspect = myWidth / myHeight;
+  const myStep = myWidth * myHeight > 700000 ? 2 : 1;
+
+  // Increase detail with depth while keeping computation manageable.
+  const myDepth = Math.max(0, Math.log2(3 / myViewHeight));
+  const myMaxIterations = Math.min(
+    1800,
+    Math.floor(180 + myDepth * 45)
+  );
+
+  for (let myY = 0; myY < myHeight; myY += myStep) {
+    if (myThisRender !== myRenderId) return;
+
+    const myImag = myCenterImag +
+      (myY / myHeight - 0.5) * myViewHeight;
+
+    for (let myX = 0; myX < myWidth; myX += myStep) {
+      const myReal = myCenterReal +
+        (myX / myWidth - 0.5) * myViewHeight * myAspect;
+
+      let myZReal = 0;
+      let myZImag = 0;
+      let myIteration = 0;
+      let myMagnitude = 0;
+
+      // Main Mandelbrot iteration: Z(n+1) = Z(n)^2 + C.
+      while (myIteration < myMaxIterations) {
+        const myZRealSquared = myZReal * myZReal;
+        const myZImagSquared = myZImag * myZImag;
+
+        if (myZRealSquared + myZImagSquared > 256) {
+          myMagnitude = Math.sqrt(myZRealSquared + myZImagSquared);
+          break;
+        }
+
+        myZImag = 2 * myZReal * myZImag + myImag;
+        myZReal = myZRealSquared - myZImagSquared + myReal;
+        myIteration++;
+      }
+
+      const myColor = myGetColor(
+        myIteration, myMaxIterations, myMagnitude
+      );
+
+      // Fill small blocks when rendering at reduced resolution.
+      for (let myDy = 0; myDy < myStep; myDy++) {
+        for (let myDx = 0; myDx < myStep; myDx++) {
+          const myPixelX = myX + myDx;
+          const myPixelY = myY + myDy;
+          if (myPixelX >= myWidth || myPixelY >= myHeight) continue;
+
+          const myIndex = (myPixelY * myWidth + myPixelX) * 4;
+          myData[myIndex] = myColor[0];
+          myData[myIndex + 1] = myColor[1];
+          myData[myIndex + 2] = myColor[2];
+          myData[myIndex + 3] = 255;
+        }
+      }
+    }
+
+    // Yield periodically so zooming and pointer interactions remain responsive.
+    if (myY % 8 === 0) {
+      myContext.putImageData(myImageData, 0, 0);
+      await new Promise(myResolve => setTimeout(myResolve, 0));
+    }
+  }
+
+  if (myThisRender === myRenderId) {
+    myContext.putImageData(myImageData, 0, 0);
+    myIsRendering = false;
+    myDrawPreview();
+  }
+}
+
+function myGetPreviewRectangle() {
+  const myBoxWidth = myWidth * myPreviewScale;
+  const myBoxHeight = myHeight * myPreviewScale;
+
+  return {
+    x: myMouseX - myBoxWidth / 2,
+    y: myMouseY - myBoxHeight / 2,
+    width: myBoxWidth,
+    height: myBoxHeight
+  };
+}
+
+function myDrawPreview() {
+  if (!myWidth || !myHeight) return;
+
+  // Draw the overlay without changing the fractal pixels.
+  const myRect = myGetPreviewRectangle();
+
+  myContext.save();
+  myContext.setLineDash([7, 5]);
+  myContext.lineWidth = 1.5;
+  myContext.strokeStyle = "#ffffff";
+  myContext.shadowColor = "#a98aff";
+  myContext.shadowBlur = 8;
+  myContext.strokeRect(
+    myRect.x, myRect.y, myRect.width, myRect.height
+  );
+  myContext.restore();
+
+  // Corner markers make the selection easier to see.
+  myContext.save();
+  myContext.strokeStyle = "#9d7aff";
+  myContext.lineWidth = 2;
+  const myCornerSize = 9;
+  const myCorners = [
+    [myRect.x, myRect.y, 1, 1],
+    [myRect.x + myRect.width, myRect.y, -1, 1],
+    [myRect.x, myRect.y + myRect.height, 1, -1],
+    [myRect.x + myRect.width, myRect.y + myRect.height, -1, -1]
+  ];
+
+  for (const myCorner of myCorners) {
+    myContext.beginPath();
+    myContext.moveTo(myCorner[0] + myCorner[2] * myCornerSize, myCorner[1]);
+    myContext.lineTo(myCorner[0], myCorner[1]);
+    myContext.lineTo(myCorner[0], myCorner[1] + myCorner[3] * myCornerSize);
+    myContext.stroke();
+  }
+
+  myContext.restore();
+}
+
+function myUpdatePointer(myEvent) {
+  const myBounds = myCanvas.getBoundingClientRect();
+  myMouseX = myEvent.clientX - myBounds.left;
+  myMouseY = myEvent.clientY - myBounds.top;
+}
+
+myCanvas.onmousemove = function(myEvent) {
+  myUpdatePointer(myEvent);
+
+  // Restore the clean fractal before drawing the new preview.
+  myContext.putImageData(myImageData, 0, 0);
+  myDrawPreview();
+};
+
+myCanvas.onwheel = function(myEvent) {
+  myEvent.preventDefault();
+
+  myUpdatePointer(myEvent);
+
+  // Smaller preview means a deeper zoom on the next click.
+  const myZoomFactor = myEvent.deltaY < 0 ? 1.15 : 1 / 1.15;
+  myPreviewScale = Math.max(
+    0.03, Math.min(1, myPreviewScale / myZoomFactor)
+  );
+
+  myContext.putImageData(myImageData, 0, 0);
+  myDrawPreview();
+};
+
+myCanvas.onclick = async function(myEvent) {
+  myUpdatePointer(myEvent);
+
+  const myOldRect = myGetPreviewRectangle();
+
+  // Convert the exact rectangle edges into complex-plane coordinates.
+  const myTopLeft = myGetComplexPoint(myOldRect.x, myOldRect.y);
+  const myNewHeight = myViewHeight * myPreviewScale;
+  const myNewWidth = myNewHeight * (myWidth / myHeight);
+
+  // Center the selected region at the click, including edge clicks.
+  const myClickedPoint = myGetComplexPoint(myMouseX, myMouseY);
+  myCenterReal = myClickedPoint.real;
+  myCenterImag = myClickedPoint.imag;
+  myViewHeight = myNewHeight;
+
+  // Keep a stable preview position after zooming.
+  myMouseX = myWidth / 2;
+  myMouseY = myHeight / 2;
+
+  await myRenderFractal();
+};
+
+myHint.onclick = function() {
+  myModal.style.display = "flex";
+};
+
+myClose.onclick = function() {
+  myModal.style.display = "none";
+};
+
+myModal.onclick = function(myEvent) {
+  if (myEvent.target === myModal) {
+    myModal.style.display = "none";
+  }
+};
+
+window.onkeydown = function(myEvent) {
+  if (myEvent.key === "Escape") {
+    myModal.style.display = "none";
+  }
+};
+
+window.onresize = myResizeCanvas;
+
+// Start with a centered preview rectangle.
+myMouseX = window.innerWidth / 2;
+myMouseY = window.innerHeight / 2;
+myResizeCanvas();
+</script>
+</body>
+</html>
