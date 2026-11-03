@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oliver - Stateful Object Assignment</title>
+
+    <script>
+        // STEP 1: Create the global object named myHero
+        let myHero = {
+            name: "Oliver",
+            power: 100,
+            comment: "Ready to train!"
+        };
+
+        // STEP 2: Function to train the hero
+        function trainHero() {
+
+            // Subtract 10 power
+            myHero.power -= 10;
+
+            // Update the comment
+            myHero.comment = "Oliver trained hard!";
+
+            // Display the updated information
+            document.getElementById('myDiv01').innerHTML =
+                "Hero Name: " + myHero.name +
+                "<br>Current Power: " + myHero.power +
+                "<br>Comment: " + myHero.comment;
+
+            // Prevent power from going below zero
+            if (myHero.power <= 0) {
+                myHero.power = 0;
+                myHero.comment = "Oliver is exhausted!";
+                
+                document.getElementById('myDiv01').innerHTML =
+                    "Hero Name: " + myHero.name +
+                    "<br>Current Power: " + myHero.power +
+                    "<br>Comment: " + myHero.comment;
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <h2 align="center">t1a16-powerup-Oliver.html</h2>
+
+    Student Name: Oliver<br>
+    Date: November 3rd<br>
+    Assignment Title: Stateful Object Assignment
+
+    <br><br>
+
+    <input type="button"
+           value="Train Hero (-10 Power)"
+           onclick="trainHero()">
+
+    <br><br>
+
+    <div id="myDiv01">
+        Click the button above to begin training!
+        <br>
+        Initial Power: 100
+    </div>
+
+</body>
+</html>
