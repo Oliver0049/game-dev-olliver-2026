@@ -1,42 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <h1 align=center>t2a19-json-Oliver.html</h1>
-</head>
-<body>
+<h1 align="center">t2a19-json-Oliver.hmtl</h1>
 
-    <h2>JSON Information Page</h2>
-    <p>Click the button to display information stored in JSON.</p>
+  <script>
+    async function fetchData(url){
+      const response = await fetch(url);
+      const data =  await response.json();
+      console.log(data);
 
-    <button onclick="showInfo()">Show Information</button>
+      const myJson = JSON.stringify(data, null, 2);
+      document.getElementById('myDiv1').innerHTML = '<pre>${myJson}</pre>';
 
-    <h3 id="name"></h3>
-    <p id="game"></p>
-    <p id="rank"></p>
-    <p id="platform"></p>
+      document.getElementById('myDiv1').innerHTML += '<img src="${data.image}" alt="random Image" style="max-width: 100%; height: auto;">';
 
-    <script>
-        let player = {
-            "name": "Oliver",
-            "game": "Rocket League",
-            "rank": "Champion",
-            "platform": "PlayStation 5"
-        };
+    }
+  </script>
 
-        function showInfo() {
-            document.getElementById("name").innerHTML =
-                player.name;
+  <select id="mySelect" size="1" onchange="fetchData(this.valeue)">
+    <option ></option>
+    <option value="https://randomfox.ca/floof/">randomfox</option>
+  </select><br><br>
 
-            document.getElementById("game").innerHTML =
-                "Game: " + player.game;
-
-            document.getElementById("rank").innerHTML =
-                "Rank: " + player.rank;
-
-            document.getElementById("platform").innerHTML =
-                "Platform: " + player.platform;
-        }
-    </script>
-
-</body>
-</html>
+  <div id="myDiv1">...</div>
