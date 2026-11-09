@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My JSON Webpage</title>
+</head>
+<body>
+
+    <h1>JSON Information Page</h1>
+    <p>Click the button to display information stored in JSON.</p>
+
+    <button onclick="showInfo()">Show Information</button>
+
+    <h2 id="name"></h2>
+    <p id="game"></p>
+    <p id="rank"></p>
+    <p id="platform"></p>
+
+    <script>
+        let player = {
+            "name": "Oliver",
+            "game": "Rocket League",
+            "rank": "Champion",
+            "platform": "PlayStation 5"
+        };
+
+        function showInfo() {
+            document.getElementById("Nass").innerHTML =
+                player.name;
+
+            document.getElementById("Rocket league").innerHTML =
+                "Game: " + player.game;
+
+            document.getElementById("Supersonic Legend").innerHTML =
+                "Rank: " + player.rank;
+
+            document.getElementById("pc").innerHTML =
+                "Platform: " + player.platform;
+        }
+    </script>
+
+</body>
+</html>
