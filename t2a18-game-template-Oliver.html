@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Template</title>
+
+    <style>
+        body {
+            background-color: white;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #image1 {
+            position: absolute;
+            left: 45px;
+            top: 0px;
+            width: 95px;
+            height: 74px;
+        }
+
+        #image2 {
+            position: absolute;
+            left: 235px;
+            top: 0px;
+            width: 95px;
+            height: 74px;
+        }
+
+        #buttons {
+            margin-top: 90px;
+        }
+    </style>
+</head>
+
+<body>
+
+<img id="image1" src="missing1.jpg">
+
+<img id="image2" src="missing2.jpg">
+
+<h1>t2a18-game-template-Oliver.html</h1>
+
+<div id="buttons">
+
+<button onclick="autoBackground()">
+Auto Background Left
+</button>
+
+<button onclick="imageRight()">
+Image Right Fast Button
+</button>
+
+</div>
+
+<script>
+
+let colors = ["red", "blue", "green", "yellow", "purple"];
+let colorNumber = 0;
+
+function autoBackground() {
+    colorNumber++;
+
+    if (colorNumber >= colors.length) {
+        colorNumber = 0;
+    }
+
+    document.body.style.backgroundColor = colors[colorNumber];
+}
+
+let position = 235;
+
+function imageRight() {
+    position += 50;
+
+    document.getElementById("image2").style.left = position + "px";
+}
+
+</script>
+
+</body>
+</html>
