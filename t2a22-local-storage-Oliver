@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>t2a22-local-storage-Oliver.html</title>
+</head>
+
+<body>
+
+    <h3>t2a22-local-storage-fred.html</h3>
+
+    Use local storage to make a to-do list
+
+    Text example:
+
+    <input type="text" id="myText" value="huh">
+
+    <br>
+
+    <button onclick="storeText()">Store Text</button>
+
+    <button onclick="retrieveText()">Retrieve Text</button>
+
+    <script>
+        function storeText() {
+            let text = document.getElementById("myText").value;
+
+            localStorage.setItem("myStoredText", text);
+
+            alert(text + "\nHas been stored");
+        }
+
+        function retrieveText() {
+            let text = localStorage.getItem("myStoredText");
+
+            if (text !== null) {
+                document.getElementById("myText").value = text;
+                alert(text + "\nHas been retrieved");
+            } else {
+                alert("No text has been stored yet");
+            }
+        }
+    </script>
+
+</body>
+</html>
