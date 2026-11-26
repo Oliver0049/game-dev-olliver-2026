@@ -1,82 +1,411 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Game Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            background-color: white;
-        }
+<title>Oliver's Game Template</title>
 
-        h1 {
-            text-align: center;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        #image1 {
-            position: absolute;
-            left: 45px;
-            top: 0px;
-            width: 95px;
-            height: 74px;
-        }
+body {
+    margin: 0;
+    background: #10182b;
+    color: white;
+    font-family: Arial, sans-serif;
+    transition: background 0.5s;
+    text-align: center;
+}
 
-        #image2 {
-            position: absolute;
-            left: 235px;
-            top: 0px;
-            width: 95px;
-            height: 74px;
-        }
+header {
+    background: #172b49;
+    padding: 22px;
+    border-bottom: 3px solid #00d9ff;
+}
 
-        #buttons {
-            margin-top: 90px;
-        }
-    </style>
+h1 {
+    margin: 0;
+    color: #00e5ff;
+    font-size: 30px;
+}
+
+.subtitle {
+    color: #b8d8ee;
+}
+
+.game {
+    max-width: 850px;
+    margin: 25px auto;
+    padding: 20px;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.score {
+    background: #203858;
+    border: 1px solid #00d9ff;
+    padding: 12px 25px;
+    border-radius: 12px;
+    min-width: 120px;
+}
+
+.score span {
+    display: block;
+    color: #00e5ff;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+#gameArea {
+    height: 290px;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #00d9ff;
+    border-radius: 15px;
+    background: linear-gradient(#4d9bce, #b2e6ff);
+    margin-bottom: 20px;
+}
+
+.character {
+    position: absolute;
+    bottom: 35px;
+    font-size: 65px;
+    width: 95px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: left 0.18s, transform 0.2s;
+    user-select: none;
+}
+
+#image1 {
+    left: 35px;
+}
+
+#image2 {
+    left: 235px;
+}
+
+.ground {
+    position: absolute;
+    bottom: 0;
+    height: 35px;
+    width: 100%;
+    background: #348c46;
+    border-top: 5px solid #7ce36b;
+}
+
+button {
+    background: #087eaf;
+    color: white;
+    border: 1px solid #27dcff;
+    border-radius: 9px;
+    padding: 13px 18px;
+    margin: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #00c9ef;
+    color: #07182a;
+    transform: scale(1.04);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.controls {
+    background: #172b49;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.controls h2 {
+    color: #00e5ff;
+}
+
+#message {
+    color: #6affb1;
+    min-height: 25px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+footer {
+    padding: 20px;
+    color: #a6c4dc;
+}
+
+@keyframes jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-90px); }
+}
+
+.jumping {
+    animation: jump 0.55s ease;
+}
+
+@media(max-width: 500px) {
+    .game {
+        padding: 10px;
+    }
+
+    #gameArea {
+        height: 260px;
+    }
+
+    button {
+        padding: 11px;
+        font-size: 13px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<img id="image1" src="missing1.jpg">
+<header>
+    <h1>🎮 Oliver's Game Template</h1>
+    <p class="subtitle">Interactive JavaScript Game</p>
+</header>
 
-<img id="image2" src="missing2.jpg">
+<div class="game">
 
-<h1>t2a18-game-template-Oliver.html</h1>
+    <div class="scoreboard">
+        <div class="score">
+            Score
+            <span id="score">0</span>
+        </div>
 
-<div id="buttons">
+        <div class="score">
+            Speed
+            <span id="speed">50</span>
+        </div>
+    </div>
 
-<button onclick="autoBackground()">
-Auto Background Left
-</button>
+    <div id="gameArea">
 
-<button onclick="imageRight()">
-Image Right Fast Button
-</button>
+        <div id="image1" class="character">🦊</div>
+
+        <div id="image2" class="character">🐸</div>
+
+        <div class="ground"></div>
+
+    </div>
+
+    <div class="controls">
+        <h2>🌈 Background Controls</h2>
+
+        <button onclick="autoBackground()">
+            Auto Background Left
+        </button>
+
+        <h2>🏃 Character Controls</h2>
+
+        <button onclick="imageLeft()">
+            ⬅ Move Left
+        </button>
+
+        <button onclick="imageRight()">
+            ➡ Move Right Fast
+        </button>
+
+        <button onclick="jumpImage()">
+            ⬆ Jump
+        </button>
+
+        <h2>⚡ Game Settings</h2>
+
+        <button onclick="increaseSpeed()">
+            Increase Speed
+        </button>
+
+        <button onclick="decreaseSpeed()">
+            Decrease Speed
+        </button>
+
+        <button onclick="addScore()">
+            + Add Score
+        </button>
+
+        <button onclick="resetGame()">
+            🔄 Reset Game
+        </button>
+
+        <div id="message">Welcome to Oliver's game!</div>
+    </div>
 
 </div>
 
+<footer>
+    Created by Oliver | HTML, CSS and JavaScript
+    <br><br>
+    Use the arrow keys to move the frog!
+</footer>
+
 <script>
 
-let colors = ["red", "blue", "green", "yellow", "purple"];
+let colors = [
+    "#4d9bce",
+    "#b65be8",
+    "#ef6868",
+    "#45b982",
+    "#e4a43a",
+    "#344b99"
+];
+
 let colorNumber = 0;
+let position = 235;
+let movementSpeed = 50;
+let score = 0;
+
+const image = document.getElementById("image2");
+const gameArea = document.getElementById("gameArea");
 
 function autoBackground() {
+
     colorNumber++;
 
     if (colorNumber >= colors.length) {
         colorNumber = 0;
     }
 
-    document.body.style.backgroundColor = colors[colorNumber];
-}
+    gameArea.style.background =
+        "linear-gradient(" + colors[colorNumber] + ", #d6f4ff)";
 
-let position = 235;
+    document.getElementById("message").textContent =
+        "Background changed!";
+}
 
 function imageRight() {
-    position += 50;
 
-    document.getElementById("image2").style.left = position + "px";
+    position += movementSpeed;
+
+    if (position > gameArea.clientWidth - image.offsetWidth) {
+        position = gameArea.clientWidth - image.offsetWidth;
+    }
+
+    image.style.left = position + "px";
+
+    addScore();
+
+    document.getElementById("message").textContent =
+        "The frog moved right!";
 }
+
+function imageLeft() {
+
+    position -= movementSpeed;
+
+    if (position < 0) {
+        position = 0;
+    }
+
+    image.style.left = position + "px";
+
+    document.getElementById("message").textContent =
+        "The frog moved left!";
+}
+
+function jumpImage() {
+
+    image.classList.remove("jumping");
+
+    void image.offsetWidth;
+
+    image.classList.add("jumping");
+
+    document.getElementById("message").textContent =
+        "The frog jumped!";
+}
+
+function increaseSpeed() {
+
+    movementSpeed += 10;
+
+    document.getElementById("speed").textContent =
+        movementSpeed;
+
+    document.getElementById("message").textContent =
+        "Speed increased!";
+}
+
+function decreaseSpeed() {
+
+    movementSpeed -= 10;
+
+    if (movementSpeed < 10) {
+        movementSpeed = 10;
+    }
+
+    document.getElementById("speed").textContent =
+        movementSpeed;
+
+    document.getElementById("message").textContent =
+        "Speed decreased!";
+}
+
+function addScore() {
+
+    score += 10;
+
+    document.getElementById("score").textContent =
+        score;
+}
+
+function resetGame() {
+
+    position = 235;
+    movementSpeed = 50;
+    score = 0;
+    colorNumber = 0;
+
+    image.style.left = position + "px";
+
+    gameArea.style.background =
+        "linear-gradient(#4d9bce, #b2e6ff)";
+
+    document.getElementById("score").textContent = 0;
+    document.getElementById("speed").textContent = 50;
+
+    document.getElementById("message").textContent =
+        "Game successfully reset!";
+}
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "ArrowRight") {
+        event.preventDefault();
+        imageRight();
+    }
+
+    if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        imageLeft();
+    }
+
+    if (event.key === "ArrowUp" || event.key === " ") {
+        event.preventDefault();
+        jumpImage();
+    }
+
+});
 
 </script>
 
