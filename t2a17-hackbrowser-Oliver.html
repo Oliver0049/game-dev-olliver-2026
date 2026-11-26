@@ -1,203 +1,430 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Browser Hack</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browser Hack by Oliver</title>
 
-    <style>
-        body {
-            background-color: #80eeee;
-            font-family: "Times New Roman";
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        textarea {
-            resize: both;
-        }
+body {
+    margin: 0;
+    padding: 25px;
+    background: linear-gradient(135deg, #071629, #102d48);
+    color: #eaf8ff;
+    font-family: Arial, sans-serif;
+}
 
-        #output {
-            width: 500px;
-            height: 285px;
-        }
+.container {
+    max-width: 1050px;
+    margin: auto;
+}
 
-        #picture {
-            position: absolute;
-            left: 570px;
-            top: 528px;
-            width: 378px;
-            height: 190px;
-        }
-    </style>
+header {
+    text-align: center;
+    padding: 25px;
+    background: #123956;
+    border: 1px solid #16c9e8;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #36e0ff;
+    margin: 0;
+    font-size: 32px;
+}
+
+h2 {
+    color: #36e0ff;
+    font-size: 20px;
+}
+
+.panel {
+    background: #102b42;
+    border: 1px solid #24516e;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+textarea, input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #34718e;
+    background: #071b2c;
+    color: #70f1ff;
+    font-size: 15px;
+    margin: 6px 0;
+}
+
+textarea {
+    resize: vertical;
+}
+
+#output {
+    height: 260px;
+    font-family: monospace;
+    line-height: 1.5;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    gap: 10px;
+}
+
+button {
+    background: #087caa;
+    color: white;
+    border: 1px solid #30d9ff;
+    border-radius: 8px;
+    padding: 13px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #12b8df;
+    color: #041725;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+.custom {
+    background: #7148ae;
+    border-color: #c09aff;
+}
+
+.custom:hover {
+    background: #a879ed;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.actions button {
+    flex: 1;
+    min-width: 120px;
+}
+
+#status {
+    color: #62e6a6;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.footer button {
+    font-size: 20px;
+    padding: 12px 35px;
+    background: #b33b55;
+    border-color: #ff8298;
+}
+
+@media(max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+}
+</style>
 </head>
 
 <body>
+<div class="container">
 
-<b>Browser Hack by Oliver</b>
-<br>
-Object Sort base
+<header>
+    <h1>⚡ Browser Hack</h1>
+    <p>Created by Oliver | JavaScript Object Explorer</p>
+</header>
 
-<br><br>
+<div class="panel">
+    <h2>📘 Instructions</h2>
+    Explore your browser using the first 14 buttons.
+    Use buttons 15–20 to investigate custom properties
+    and methods. Results will appear in the output window.
 
-<h3>Instructions t2a17-Hackbrowser</h3>
+    <p>Different browsers may return different results!</p>
+</div>
 
-Use the first 15 buttons to decide on what words to enter for the last 5 buttons to gain interesting information from your present web browser. Note: The results may be different on Chrome, Safari, IE or phonegap. Those differences may be useful when programming. Also note: Objects will not work until a real instance of the object is on the web page!
+<div class="panel">
+    <h2>⌨️ Test Inputs</h2>
 
-<br><br>
+    <label>Text area:</label>
+    <textarea id="myText" rows="2">wow</textarea>
 
-<textarea id="myText" rows="2" cols="18">wow</textarea>
+    <label>Text input:</label>
+    <input type="text" id="myText2" value="Hello Browser!">
 
-<input type="text" id="myText2" size="45">
+    <h2>🔍 Property / Method Search</h2>
+    <input type="text" id="move1"
+        placeholder="Enter a property, e.g. title, userAgent, innerWidth">
+</div>
 
-<br><br>
+<div class="panel">
+    <h2>🧰 Standard Browser Objects</h2>
 
-<h3>Click the buttons to see all useable properties and methods of the object. Click refresh to reset Browser</h3>
+    <div class="buttons">
+        <button onclick="show(1)">1. Window</button>
+        <button onclick="show(2)">2. Document</button>
+        <button onclick="show(3)">3. Form Object</button>
+        <button onclick="show(4)">4. Textarea Object</button>
+        <button onclick="show(5)">5. Location</button>
+        <button onclick="show(6)">6. Parent Window</button>
+        <button onclick="show(7)">7. Chrome Object</button>
+        <button onclick="show(8)">8. Input Style</button>
+        <button onclick="show(9)">9. Body Style</button>
+        <button onclick="show(10)">10. Input Element</button>
+        <button onclick="show(11)">11. Local Storage</button>
+        <button onclick="show(12)">12. CSS Properties</button>
+        <button onclick="show(13)">13. Textarea Value</button>
+        <button onclick="show(14)">14. Text Input Value</button>
+    </div>
+</div>
 
-<input type="text" id="move1" size="45">
+<div class="panel">
+    <h2>🚀 Custom Object Explorer</h2>
+    <p>Enter a property or method above, then choose an object.</p>
 
-<br>
+    <div class="buttons">
+        <button class="custom" onclick="custom(15)">15. Window</button>
+        <button class="custom" onclick="custom(16)">16. Document</button>
+        <button class="custom" onclick="custom(17)">17. Navigator</button>
+        <button class="custom" onclick="custom(18)">18. Screen</button>
+        <button class="custom" onclick="custom(19)">19. Textarea</button>
+        <button class="custom" onclick="custom(20)">20. Body Style</button>
+    </div>
+</div>
 
-<button onclick="show(1)">1 window</button>
-<button onclick="show(2)">2 document</button>
-<button onclick="show(3)">3 document.myForm2</button>
-<button onclick="show(4)">4 document.myForm2.myTextarea</button>
-<button onclick="show(5)">5 window.location</button>
-<button onclick="show(6)">6 window.parent</button>
-<button onclick="show(7)">7 window.chrome</button>
-<button onclick="show(8)">8 document.all.move1.style</button>
-<button onclick="show(9)">9 style</button>
-<button onclick="show(10)">10 document.all.move1</button>
-<button onclick="show(11)">11 window.localStorage</button>
-<button onclick="show(12)">12 document.getElementById('move1').style</button>
-<button onclick="show(13)">13 document.myForm2.myText</button>
-<button onclick="show(14)">14 document.getElementById('myText2')</button>
+<div class="panel">
+    <h2>📟 Browser Output</h2>
+    <textarea id="output" readonly
+        placeholder="Your results will appear here..."></textarea>
 
-<button onclick="custom(15)">15</button>
-<button onclick="custom(16)">16</button>
-<button onclick="custom(17)">17</button>
-<button onclick="custom(18)">18</button>
-<button onclick="custom(19)">19</button>
-<button onclick="custom(20)">20</button>
+    <div class="actions">
+        <button onclick="clearOutput()">Clear Output</button>
+        <button onclick="copyOutput()">Copy Results</button>
+        <button onclick="refreshBrowser()">Refresh Browser</button>
+    </div>
 
-<br><br>
+    <div id="status">Ready to explore!</div>
+</div>
 
-<textarea id="output"></textarea>
+<div class="footer">
+    <button onclick="history.back()">⬅ Back</button>
+</div>
 
-<br><br><br>
-
-At the bottom of every page make sure you include the following button:
-
-<br>
-
-<button style="font-size:25px;" onclick="history.back()">Back</button>
-
-<img id="picture" src="missing-image.jpg">
+</div>
 
 <script>
+const $ = id => document.getElementById(id);
+
+function display(result) {
+    $("output").value = result;
+    $("status").textContent =
+        "✓ Inspection completed at " + new Date().toLocaleTimeString();
+}
+
+function describe(value) {
+    if (value === undefined) return "Property not found!";
+    if (value === null) return "Value: null";
+
+    if (typeof value === "function") {
+        return "Type: Function\n" +
+            "Name: " + (value.name || "Anonymous") +
+            "\nArguments expected: " + value.length +
+            "\n\n" + String(value).slice(0, 500);
+    }
+
+    if (typeof value === "object") {
+        try {
+            return "Type: Object\n" +
+                "Constructor: " +
+                (value.constructor?.name || "Unknown") +
+                "\nProperties: " +
+                Object.keys(value).slice(0, 50).join(", ");
+        } catch (error) {
+            return "Type: Object\n" + String(value);
+        }
+    }
+
+    return "Type: " + typeof value + "\nValue: " + String(value);
+}
 
 function show(number) {
-
     let result = "";
 
     switch(number) {
-
         case 1:
-            result = "Window: " + Object.keys(window).join(", ");
+            result = "WINDOW OBJECT\n\n" +
+                Object.keys(window).join(", ");
             break;
 
         case 2:
-            result = "Document: " + Object.keys(document).join(", ");
+            result = "DOCUMENT OBJECT\n\n" +
+                Object.keys(document).join(", ");
             break;
 
         case 3:
-            result = "document.myForm2 is an example of a form object.";
+            result = "FORM OBJECT\n\n" +
+                "No form named myForm2 exists in this upgraded page.\n" +
+                "Use the Document or Element inspectors instead.";
             break;
 
         case 4:
-            result = "document.myForm2.myTextarea is an example of a textarea object.";
+            result = "TEXTAREA OBJECT\n\n" +
+                describe($("myText"));
             break;
 
         case 5:
-            result = "Window location: " + window.location.href;
+            result = "WINDOW LOCATION\n\n" +
+                describe(window.location) +
+                "\n\nURL: " + window.location.href;
             break;
 
         case 6:
-            result = "Window parent: " + (window.parent === window);
+            result = "PARENT WINDOW\n\n" +
+                "Is parent the current window? " +
+                (window.parent === window);
             break;
 
         case 7:
-            result = "Chrome information: " + (window.chrome ? "Available" : "Not available");
+            result = "CHROME OBJECT\n\n" +
+                describe(window.chrome);
             break;
 
         case 8:
-            result = "Move1 style: " + document.getElementById("move1").style.cssText;
+            result = "INPUT STYLE\n\n" +
+                describe($("move1").style);
             break;
 
         case 9:
-            result = "Style properties: " + Object.keys(document.body.style).slice(0, 30).join(", ");
+            result = "BODY STYLE\n\n" +
+                describe(document.body.style);
             break;
 
         case 10:
-            result = "Move1 element: " + document.getElementById("move1").tagName;
+            result = "INPUT ELEMENT\n\n" +
+                describe($("move1"));
             break;
 
         case 11:
-            result = "Local Storage: " + (typeof window.localStorage);
+            try {
+                result = "LOCAL STORAGE\n\n" +
+                    "Type: " + typeof window.localStorage +
+                    "\nAvailable: " +
+                    (window.localStorage !== undefined);
+            } catch(error) {
+                result = "Local storage unavailable: " + error.message;
+            }
             break;
 
         case 12:
-            result = "Move1 CSS style: " + JSON.stringify(document.getElementById("move1").style);
+            result = "CSS STYLE PROPERTIES\n\n" +
+                Array.from($("move1").style).join(", ");
             break;
 
         case 13:
-            result = "MyText: " + document.getElementById("myText").value;
+            result = "TEXTAREA VALUE\n\n" + $("myText").value;
             break;
 
         case 14:
-            result = "MyText2: " + document.getElementById("myText2").value;
+            result = "TEXT INPUT VALUE\n\n" + $("myText2").value;
             break;
     }
 
-    document.getElementById("output").value = result;
+    display(result);
 }
 
 function custom(number) {
+    const word = $("move1").value.trim();
 
-    let word = document.getElementById("move1").value;
-
-    if (word === "") {
-        document.getElementById("output").value = "Enter a property or method in the box first!";
+    if (!word) {
+        display("Please enter a property or method first!");
+        $("move1").focus();
         return;
     }
 
-    let result;
+    let object;
 
-    if (number === 15) {
-        result = window[word];
+    switch(number) {
+        case 15: object = window; break;
+        case 16: object = document; break;
+        case 17: object = navigator; break;
+        case 18: object = screen; break;
+        case 19: object = $("myText"); break;
+        case 20: object = document.body.style; break;
     }
 
-    else if (number === 16) {
-        result = document[word];
+    if (!(word in object)) {
+        display("PROPERTY NOT FOUND\n\n" +
+            "Object: " + object.constructor?.name +
+            "\nProperty: " + word);
+        return;
     }
 
-    else if (number === 17) {
-        result = navigator[word];
+    try {
+        display("CUSTOM INSPECTION\n\n" +
+            "Object: " + (object.constructor?.name || "Browser Object") +
+            "\nProperty: " + word +
+            "\n\n" + describe(object[word]));
+    } catch(error) {
+        display("Unable to inspect property:\n" + error.message);
     }
-
-    else if (number === 18) {
-        result = screen[word];
-    }
-
-    else if (number === 19) {
-        result = document.getElementById("myText")[word];
-    }
-
-    else if (number === 20) {
-        result = document.body.style[word];
-    }
-
-    document.getElementById("output").value =
-        typeof result === "undefined" ? "Property not found!" : String(result);
 }
 
+function clearOutput() {
+    $("output").value = "";
+    $("status").textContent = "Output cleared.";
+}
+
+function copyOutput() {
+    const output = $("output").value;
+
+    if (!output) {
+        display("Nothing to copy!");
+        return;
+    }
+
+    if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(output)
+            .then(() => {
+                $("status").textContent = "✓ Results copied!";
+            })
+            .catch(() => {
+                display("Clipboard access was denied.");
+            });
+    } else {
+        $("output").select();
+        $("status").textContent =
+            "Select and copy the output manually.";
+    }
+}
+
+function refreshBrowser() {
+    location.reload();
+}
 </script>
 
 </body>
