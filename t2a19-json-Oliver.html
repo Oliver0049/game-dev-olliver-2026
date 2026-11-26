@@ -1,22 +1,128 @@
-<h1 align="center">t2a19-json-Oliver.hmtl</h1>
 
-  <script>
-    async function fetchData(url){
-      const response = await fetch(url);
-      const data =  await response.json();
-      console.log(data);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t2a19-json-Oliver</title>
 
-      const myJson = JSON.stringify(data, null, 2);
-      document.getElementById('myDiv1').innerHTML = '<pre>${myJson}</pre>';
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 30px;
+        }
 
-      document.getElementById('myDiv1').innerHTML += '<img src="${data.image}" alt="random Image" style="max-width: 100%; height: auto;">';
+        h1 {
+            color: #333;
+        }
 
-    }
-  </script>
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+            margin: 15px;
+        }
 
-  <select id="mySelect" size="1" onchange="fetchData(this.valeue)">
-    <option ></option>
-    <option value="https://randomfox.ca/floof/">randomfox</option>
-  </select><br><br>
+        #myDiv1 {
+            background: white;
+            max-width: 650px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
 
-  <div id="myDiv1">...</div>
+        pre {
+            text-align: left;
+            background: #eee;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #388E3C;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Random Fox JSON Viewer</h1>
+
+    <p>Select an option to load random fox data!</p>
+
+    <select id="mySelect" onchange="fetchData(this.value)">
+        <option value="">-- Choose an API --</option>
+        <option value="https://randomfox.ca/floof/">Random Fox</option>
+    </select>
+
+    <div id="myDiv1">
+        <p>Select an API to display data.</p>
+    </div>
+
+    <script>
+        async function fetchData(url) {
+
+            if (!url) {
+                document.getElementById("myDiv1").innerHTML =
+                    "<p>Please select an API.</p>";
+                return;
+            }
+
+            const output = document.getElementById("myDiv1");
+
+            output.innerHTML = "<p>Loading...</p>";
+
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch data");
+                }
+
+                const data = await response.json();
+
+                console.log(data);
+
+                const myJson = JSON.stringify(data, null, 2);
+
+                output.innerHTML = `
+                    <h2>JSON Data</h2>
+                    <pre>${myJson}</pre>
+
+                    <h2>Random Fox Image</h2>
+                    <img src="${data.image}" alt="Random Fox Image">
+                `;
+
+            } catch (error) {
+                output.innerHTML =
+                    "<p>Sorry, something went wrong. Please try again.</p>";
+
+                console.error(error);
+            }
+        }
+    </script>
+
+</body>
+</html>
+
